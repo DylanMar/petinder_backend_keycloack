@@ -15,8 +15,8 @@ public class KeycloakGrantedAuthoritiesConverter implements Converter<Jwt, Colle
     @Override
     public Collection<GrantedAuthority> convert(Jwt source) {
         Map<String, Object> resourceAccess = source.getClaimAsMap("resource_access");
-        Map<String, Object> clientAccess = (Map<String, Object>) resourceAccess.get("petinder-dylan");
-        List<String> roles = (List<String>) clientAccess.keySet();
+        Map<String, List<String>> clientAccess  = (Map<String, List<String>>) resourceAccess.get("petinder-dylan");
+        List<String> roles = clientAccess.get("roles");
         return roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 }
